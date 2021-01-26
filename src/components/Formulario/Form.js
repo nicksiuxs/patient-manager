@@ -11,6 +11,9 @@ const Form = () => {
         sintomas: '',
     });
 
+    // State for the errors
+    const [error,updateError] = useState(false);
+
     // Function that excute when the user type in an input
     const handleChangeInput = (event)=>{
         
@@ -23,10 +26,29 @@ const Form = () => {
     // extract the values of the json
     const {mascota,propietario,fecha,hora,sintomas} = appointment;
 
+    // When the user press the button send appointment
+    const submitAppointment = (event)=>{
+        event.preventDefault();
+        
+        // Validate values
+        if(mascota.trim() === '' || propietario.trim() ==='' || fecha.trim()==="" || hora.trim()==="" || sintomas.trim()===""){
+            updateError(true);
+            return;
+        }
+        // Asign an Id
+
+        // Create an a appointment
+
+        // Reboot the form
+    }
+
     return ( 
     <div>
         <h2>Crear Cita</h2>
-        <form>
+        {(error)?<p className="alerta-error">Todos los campos deben ser validados</p>:null}
+        <form 
+            onSubmit={submitAppointment}
+        >
             <label>Nombre Mascota</label>
             <input
                 type="text"
