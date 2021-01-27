@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-const Form = () => {
+const Form = ({addAppointment}) => {
 
     // Creating the state of appointment
     const [appointment, updateAppointment] = useState({
@@ -43,8 +43,16 @@ const Form = () => {
         appointment.id = uuid();
         
         // Create an a appointment
+        addAppointment(appointment);
 
         // Reboot the form
+        updateAppointment({
+            mascota: '',
+            propietario: '',
+            fecha: '',
+            hora: '',
+            sintomas: '',
+        })
     }
 
     return (
