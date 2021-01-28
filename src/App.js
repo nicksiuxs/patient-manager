@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Form from './components/Formulario/Form';
+import Appointment from './components/Appointment/Appointment';
 
 function App() {
 
@@ -11,7 +12,16 @@ function App() {
     
     saveAppontiments([...appointments, appointment]);
   }
-   
+
+  // function that delete an appointment by id
+   const deleteAppointment= (id)=>{
+    const newAppointment = appointments.filter(ap =>{
+      return  ap.id!==id;
+    })
+
+    // save th new arry of appointments
+    saveAppontiments(newAppointment);
+   }
   return (
     <div className="container">
       <h1>Admnistrador de pacientes</h1>
@@ -22,7 +32,18 @@ function App() {
           />
         </div>
         <div className="one-half column">
-          2
+          <h2>Administra tus citas</h2>
+          {
+            appointments.map(appointment=>(
+              <Appointment
+                key={appointment.id}
+                appointment ={appointment}
+                deleteAppointment = {deleteAppointment}
+              />
+            )
+              
+            )
+          }
         </div>
       </div>
     </div>
