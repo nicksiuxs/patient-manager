@@ -1,11 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Form from './components/Formulario/Form';
 import Appointment from './components/Appointment/Appointment';
 
 function App() {
 
+  // Appointment in localstorage
+  let initialAppointments = JSON.parse(localStorage.getItem('citas'));
+  if(!initialAppointments){
+    initialAppointments = [];
+  }
+
   // Array of appointments
-  const[appointments, saveAppontiments] = useState([]);
+  const[appointments, saveAppontiments] = useState(initialAppointments);
+
+  // useEffect para realizar ciertas operaciones cuando el state cambia
+  useEffect(()=>{
+      if(initialAppointments){
+        localStorage.setItem('citas', JSON.stringify(appointments));
+      }else{
+        localStorage.setItem('citas', JSON.stringify([]))
+      }
+  }, [appointments]); //cada vez que cambien las citas se ejecutará el use effect
 
   // Function that takes the current appointments 
   const addAppointment = appointment =>{
@@ -22,6 +37,10 @@ function App() {
     // save th new arry of appointments
     saveAppontiments(newAppointment);
    }
+
+  //  conditional message 
+  const title = appointments.length===0 ? "Agregar citas" : "Administra tus citas";
+
   return (
     <div className="container">
       <h1>Admnistrador de pacientes</h1>
@@ -32,7 +51,7 @@ function App() {
           />
         </div>
         <div className="one-half column">
-          <h2>Administra tus citas</h2>
+          <h2>{title}</h2>
           {
             appointments.map(appointment=>(
               <Appointment
